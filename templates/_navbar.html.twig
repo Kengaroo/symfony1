@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-xl navbar-light bg-nav">
+    <img src="{{ asset('build/images/envelope.svg') }}" alt="flash-left"/>
+    <a class="navbar-brand" href="/">Wild series</a>
+    <form class="d-flex navbar-expand search">
+        <input class="form-control me-2" type="search" placeholder="Recherche" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Go</button>
+    </form>
+    <a class="nav-link d-xl-none" href="#"><img src="{{ asset('build/images/logout.svg') }}" alt="logout"/></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Categories
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+            {%for category in categories %}
+                <a class="dropdown-item" href="{{ path('category_show', {link: category.link}) }}">{{ category.name }}</a>
+            {% endfor %}
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </li>
+        <select class="nav-item dropdown">
+            <option class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Acteurs
+            </option>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <option class="dropdown-item">Comics</option>
+            <option class="dropdown-item" href="#">Drama</option>
+            <div class="dropdown-divider"></div>
+            <option class="dropdown-item" href="#">Something else here</option>
+            </div>
+        </select><!--
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Acteurs
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Comics</a>
+            <a class="dropdown-item" href="#">Drama</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </li>-->
+        <li class="nav-item active">
+            <a class="nav-link" href="#">Mes favoris<span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-none d-xl-block" href="#"><div class="button">Deconnexion</div></a>
+        </li>
+        <li class="nav-item">
+            <i>Dhon Joe</i>
+        </li>
+    </div>
+</nav>
