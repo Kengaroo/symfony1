@@ -43,7 +43,7 @@ class CategoryFixtures extends Fixture
             $category->setName($name);
             $category->setLink($this->name2link($name));
             $manager->persist($category);
-            $this->addReference('category_' . $name, $category);
+            $this->addReference('category_' . $category->getLink(), $category);
         }
         $manager->flush();
     }
