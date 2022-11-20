@@ -20,7 +20,7 @@ class CategoryFixtures extends Fixture
         'Comédie'
     ];
 
-    function name2link($name)
+function name2link($name)
 {
     $link = mb_strtolower($name, 'utf-8');
     //Pre-processing for French

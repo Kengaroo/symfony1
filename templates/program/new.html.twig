@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} - Creer nouvelle categorie{% endblock %}
+{% block body %}
+    <h1>Ajoute nouvelle serie</h1>
+    {{ form_start(form, {attr: {'class' : 'form-center','method': 'POST'}}) }}  
+    {{ form_errors(form) }}
+    {{ form_widget(form) }}
+    {# form_row(form.name, {'attr': {'class': 'foo'},'label': 'NoName', 'label_attr': {'class': 'fuck'}}) #}   
+    <button type="submit">Ajouter serie</button>
+    {{ form_end(form) }}   
+    <a href="{{ path('app_index') }}">
+        Retour à l'accueil
+    </a>
+{% endblock %}

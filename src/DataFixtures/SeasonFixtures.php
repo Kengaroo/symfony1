@@ -39,10 +39,10 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
             'description' => 'Des zombies envahissent la terre',
             'program' => 'The Big Bang Theory'
         ]
-        ];
+        ];/*
         public const PROGRAMS = [
             'The Big Bang Theory', 'Silence of lambs', 'Comissaire Megre', 'Program 1', 'Program 2', 'Program 3', 'Easy virtue'        
-        ];
+        ];*/
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
@@ -67,7 +67,7 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
             $season->setNumber($info['number']);
             $season->setDescription($faker->paragraph());
             $season->setYear($faker->year());
-            $season->setProgram($this->getReference('program_' . $this->name2link(self::PROGRAMS[rand(0,6)])));
+            $season->setProgram($this->getReference('program_' . $this->name2link($info['program'])));
             $this->addReference('season_' . $season->getNumber(), $season);
             $manager->persist($season);
             

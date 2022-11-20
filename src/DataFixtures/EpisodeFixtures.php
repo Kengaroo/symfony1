@@ -53,10 +53,11 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < 50 ; $i++) {
             $episode = new Episode();
-            $episode->setTitle($faker->title());
-            $episode->setNumber($faker->numberBetween(1, 10));
-            $episode->setSynopsis($faker->paragraph());
-            $episode->setSeason($this->getReference('season_' . $faker->numberBetween(1, 2)));  
+            $episode->setTitle($faker->title());            
+            $episode->setSynopsis($faker->paragraph());            
+            $episode->setNumber($i%25+1);
+            
+            $episode->setSeason($this->getReference('season_' . ($i < 25 ? 1 : 2)));  
             $manager->persist($episode);          
         }
         $manager->flush();
