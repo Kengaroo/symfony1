@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\File;
 
 class ProgramType extends AbstractType
@@ -16,9 +17,9 @@ class ProgramType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('synopsis', TextType::class)
+            ->add('synopsis', TextareaType::class)
             ->add('poster', FileType::class, [
-                'label' => 'Poster (.jpg, .png, .svg)',
+                'label' => 'Poster (.jpg, .png, .bmp)',
                 // неотображенное означает, что это поле не ассоциировано ни с одним свойством сущности
                 'mapped' => false,
                 // сделайте его необязательным, чтобы вам не нужно было повторно загружать файл
@@ -33,7 +34,7 @@ class ProgramType extends AbstractType
                             'image/jpg',                            
                             'image/jpeg', 
                             'image/png', 
-                            'image/bin', 
+                            'image/bmp', 
                         ],
                         'mimeTypesMessage' => 'Please upload a valid image',
                     ])

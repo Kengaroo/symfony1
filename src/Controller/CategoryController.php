@@ -49,13 +49,31 @@ class CategoryController extends AbstractController
         return $link;
     }
 
+    #[Route('/{link<^(?!new)[a-z-]+$>}/{limit<^[-9]{0,}$>}', name: 'show', methods: ['GET'])]
+    public function show(string $link, CategoryRepository $categoryRepository, ProgramRepository $programRepository, int $limit = self::LIMIT_PROGRAM)
+    {        
+        $categoryOne = $categoryRepository->findOneByLink($link);
+        if (!$categoryOne) {
+            throw $this->createNotFoundException(
+                'No categories with link : '.$link. '.'
+            );
+        }
+        $programs = $programRepository->findLimitPrograms($link, $limit);
+
+        return $this->render('category/show.html.twig', [
+            'categoryOne' => $categoryOne,
+            'categories' => $this->categories,
+            'programs' => $programs
+         ]);
+    }
+
     #[Route('/new', name: 'new')]
     public function new(CategoryRepository $categoryRepository, Request $request): Response
     {
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $category->setLink(self::name2link($category->getName()));
             $categoryRepository->save($category, true);
             return $this->redirectToRoute('category_index');
@@ -75,32 +93,14 @@ class CategoryController extends AbstractController
             'categories' => $categories
          ]);
     }
-*/
-    #[Route('/{link<^[a-z-]+$>}/{limit<^[0-9]{0,}$>}', name: 'show', methods: ['GET'])]
-    public function show(string $link, CategoryRepository $categoryRepository, ProgramRepository $programRepository, int $limit = self::LIMIT_PROGRAM)
-    {
-        $categories = $categoryRepository->findAll();
-        $categoryOne = $categoryRepository->findOneByLink($link);
-        if (!$categories) {
-            throw $this->createNotFoundException(
-                'No categories with link : '.$link. '.'
-            );
-        }
-        $programs = $programRepository->findLimitPrograms($link, $limit);
-
-        return $this->render('category/show.html.twig', [
-            'categoryOne' => $categoryOne,
-            'categories' => $this->categories,
-            'programs' => $programs
-         ]);
-    }
+*/    
 
     #[Route('/{all<.+>}', name: '404')]
     public function notFound(): Response
     {
         return $this->render('404.html.twig', [
-            'categories' => $cthis->ategories,
-            'goback' => $_SERVER['HTTP_REFERER']
+            'categories' => $this->categories,
+            'goback' => (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/')
         ]);
     }
 }

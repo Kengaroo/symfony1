@@ -114,7 +114,7 @@ class ProgramController extends AbstractController
     {
         return $this->render('404.html.twig', [
             'categories' => $categoryRepository->findAll(),
-            'goback' => $_SERVER['HTTP_REFERER']
+            'goback' => (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/')
         ]);
     }
     

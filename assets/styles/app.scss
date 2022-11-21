@@ -143,5 +143,17 @@ div.button {
 }
 
 form.form-center {
-    text-align: center;
+    margin: var(--site-padding) auto;
+    width: 50%;
+    border: 1px solid var(--bg-color-secondary);
+    border-radius: 20px;
+    padding: var(--site-padding);
+}
+
+form.form-center label {
+    width: 50%;
+}
+
+form.form-center div {
+    padding: var(--site-padding);
 }

@@ -4,7 +4,7 @@
     <h1>Ajoute nouvelle serie</h1>
     {{ form_start(form, {attr: {'class' : 'form-center','method': 'POST'}} ) }}  
     {{ form_errors(form) }}
-    {{ form_row(form.name, {'attr': {'class': 'foo'},'label': 'NoName', 'label_attr': {'class': 'fuck'}}) }}   
+    {{ form_row(form.name, {'attr': {'class': 'foo'},'label': 'Name', 'label_attr': {'class': 'test'}}) }}   
     <button type="submit">Ajouter categorie</button>
     {{ form_end(form) }}   
     <a href="{{ path('app_index') }}">
