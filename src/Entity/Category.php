@@ -26,12 +26,11 @@ class Category
         )]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $link = null;
-
-
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Program::class)]    
     private $programs;
+
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
 
     public function __construct()
     {
@@ -80,15 +79,16 @@ class Category
         return $this;
     }
 
-    public function getLink(): ?string
+    public function getSlug(): ?string
     {
-        return $this->link;
+        return $this->slug;
     }
 
-    public function setLink(string $link): self
+    public function setSlug(string $slug): self
     {
-        $this->link = $link;
+        $this->slug = $slug;
 
         return $this;
     }
+
 }

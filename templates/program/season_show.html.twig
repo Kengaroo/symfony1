@@ -3,15 +3,15 @@
 {% block body %}
     <div class="media">        
         <div class="media-body">
-            <h1 class="mt-0">{{program.title}}. Saison {{season.number }}</h1>
+            <h1 class="mt-0"><a href="{{ path('program_show', {slug: program.slug}) }}">{{program.title}}.</a> Saison {{season.number }}</h1>
             <p>{{ season.description }}</p>
             <p>Catégorie : {{ program.category.name }}</p>            
         </div>
         <div>
-            {% if season.episodes %}
+            {% if season.episodes is not empty %}            
                 <h3>Liste des épisodes</h3>
                 {% for episode in season.episodes %}
-                    <p><a href="{{ path('program_episode_show', {program: program.id, season: season.id, episode: episode.id}) }}">{{episode.number}}. {{episode.title}}</a></p>
+                    <p><a href="{{ path('program_episode_show', {slug: program.slug, season: season.slug, episode: episode.slug}) }}">{{episode.number}}. {{episode.title}}</a></p>
                 {% endfor %}
             {% else %}
                 <p>Pas d'episodes disponible</p>
@@ -19,7 +19,7 @@
         <div>
     </div>
     <div>
-        <a href="{{ path('program_show', {'id': program.id}) }}">
+        <a href="{{ path('program_show', {'slug': program.slug}) }}">
             Retour à la page de programme
         </a>
     </div>

@@ -16,35 +16,24 @@
             Categories
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-            {%for category in categories %}
-                <a class="dropdown-item" href="{{ path('category_show', {link: category.link}) }}">{{ category.name }}</a>
+            {%for category in globalCategories.categories %}
+                <a class="dropdown-item" href="{{ path('category_show', {slug: category.slug}) }}">{{ category.name }}</a>
             {% endfor %}
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Something else here</a>
             </div>
         </li>
-        <select class="nav-item dropdown">
-            <option class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Acteurs
-            </option>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <option class="dropdown-item">Comics</option>
-            <option class="dropdown-item" href="#">Drama</option>
-            <div class="dropdown-divider"></div>
-            <option class="dropdown-item" href="#">Something else here</option>
-            </div>
-        </select><!--
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-expanded="false">
             Acteurs
-            </a>
+            </a>            
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Comics</a>
-            <a class="dropdown-item" href="#">Drama</a>
-            <div class="dropdown-divider"></div>
+            {%for actor in globalActors.actors %}
+                <a class="dropdown-item" href="{{ path('app_actor_show', {slug: actor.slug}) }}">{{ actor.name }}</a>
+            {% endfor %}            
             <a class="dropdown-item" href="#">Something else here</a>
             </div>
-        </li>-->
+        </li>
         <li class="nav-item active">
             <a class="nav-link" href="#">Mes favoris<span class="sr-only"></span></a>
         </li>

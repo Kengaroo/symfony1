@@ -53,12 +53,16 @@ class Program
     #[ORM\OneToMany(mappedBy: 'program', targetEntity: Season::class)]
     private Collection $seasons;
 
+    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'programs', cascade:['persist'])]
+    private Collection $actors;
+
     #[ORM\Column(length: 255)]
-    private ?string $link = null;
+    private ?string $slug = null;
 
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
+        $this->actors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,14 +148,41 @@ class Program
         return $this;
     }
 
-    public function getLink(): ?string
+    /**
+     * @return Collection<int, Actor>
+     */
+    public function getActors(): Collection
     {
-        return $this->link;
+        return $this->actors;
     }
 
-    public function setLink(string $link): self
+    public function addActor(Actor $actor): self
     {
-        $this->link = $link;
+        if (!$this->actors->contains($actor)) {
+            $this->actors->add($actor);
+            $actor->addProgram($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActor(Actor $actor): self
+    {
+        if ($this->actors->removeElement($actor)) {
+            $actor->removeProgram($this);
+        }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

@@ -3,7 +3,7 @@
 {% block body %}
     <div class="media">        
         <div class="media-body">
-            <h1 class="mt-0">{{program.title}}. Episode{{episode.number }} " {{episode.title }} " de saison {{season.number }}</h1>
+            <h1 class="mt-0"><a href="{{ path('program_show', {slug: program.slug}) }}">{{program.title}}.</a> Episode{{episode.number }} " {{episode.title }} " de saison {{season.number }}</h1>
             <h2>{{program.title }}</h2>
             <p>{{ season.description }}</p>
             <p>Catégorie : {{ program.category.name }}</p>            
@@ -12,15 +12,19 @@
             {% if season.episodes %}
                 <h3>Liste des épisodes</h3>
                 {% for episodeOne in season.episodes %}
-                    <p>{% if (episodeOne.number == episode.number) %}<i>{% endif %}{{episodeOne.number}}. {{episodeOne.title}}{% if (episodeOne.number == episode.number) %}</i>{% endif %}</p>
-                {% endfor %}
+                    <p>
+                        {% if (episodeOne.number == episode.number) %}<i>{% else %}<a href="{{ path('program_episode_show', {slug: program.slug, season: season.slug, episode: episodeOne.slug}) }}">{% endif %}
+                        {{episodeOne.number}}. {{episodeOne.title}}
+                        {% if (episodeOne.number == episode.number) %}</i>{% else %}</a>{% endif %}
+                    </p>
+                {% endfor %}                
             {% else %}
                 <p>Pas d'episodes disponible</p>
             {% endif %}
         <div>
     </div>
     <div>
-        <a href="{{ path('program_show', {id: program.id}) }}">
+        <a href="{{ path('program_show', {slug: program.slug}) }}">
             Retour à la page de programme
         </a>
     </div>

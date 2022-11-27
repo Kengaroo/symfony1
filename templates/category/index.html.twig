@@ -2,9 +2,9 @@
 {% block title %}Wild Series{% endblock %}
 {% block body %}
     <h1>Categories</h1>
-    {% for category in categories %}
+    {% for category in globalCategories.categories %}
         <div>
-            <h2><a href="{{ path('category_show', {link: category.link})}}">{{ loop.index }} / {{ category.name }}</a></h2>
+            <h2><a href="{{ path('category_show', {slug: category.slug})}}">{{ loop.index }} / {{ category.name }}</a></h2>
         </div>
     {% else %}
         Aucune catégorie trouvée.
