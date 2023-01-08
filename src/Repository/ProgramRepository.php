@@ -42,13 +42,13 @@ class ProgramRepository extends ServiceEntityRepository
         /**
      * @return $limit first programs, ordered by $orderBy
      */
-    public function findLimitPrograms(string $link, int $limit = 5, string $orderBy = 'id', string $direction = 'DESC'): array
+    public function findLimitPrograms(string $slug, int $limit = 5, string $orderBy = 'id', string $direction = 'DESC'): array
     {
         $entityManager = $this->getEntityManager();
 
-        $query1 = "SELECT p FROM App\Entity\Program p" . " WHERE p.category=(SELECT c.id FROM App\Entity\Category c WHERE c.link=:link) ORDER BY p." . $orderBy . " " . $direction;
+        $query1 = "SELECT p FROM App\Entity\Program p" . " WHERE p.category=(SELECT c.id FROM App\Entity\Category c WHERE c.slug=:slug) ORDER BY p." . $orderBy . " " . $direction;
         //echo $query1; die;
-        $query = $entityManager->createQuery($query1)->setParameter('link', $link);
+        $query = $entityManager->createQuery($query1)->setParameter('slug', $slug);
         if ($limit) {
             $query = $query->setMaxResults($limit);
         }

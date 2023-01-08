@@ -16,9 +16,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CategoryRepository extends ServiceEntityRepository
 {
+    public $categories = [];
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Category::class);
+        $this->categories = $this->findAll();
     }
 
     public function save(Category $entity, bool $flush = false): void

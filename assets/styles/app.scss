@@ -141,3 +141,30 @@ div.button {
         position: absolute;
     }
 }
+
+form.form-center {
+    margin: var(--site-padding) auto;
+    width: 50%;
+    border: 1px solid var(--bg-color-secondary);
+    border-radius: 20px;
+    padding: var(--site-padding);
+}
+
+form.form-center label {
+    width: 50%;
+}
+
+form.form-center div {
+    padding: var(--site-padding);
+}
+
+p {
+    margin: 5px 10px;
+}
+
+main img {
+    background-size: cover;
+    width: 100px;
+    height: 200px;
+    object-fit: cover;
+}

@@ -9,17 +9,21 @@
 
     {% for program in programs %}
         <div>
-            <h2><a href="{{ path('program_show', {id: program.id})}}">{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</a></h2>
+            <h2><a href="{{ path('program_show', {slug: program.slug})}}">{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</a></h2>
             <p>{{ program.synopsis }}</p>
         </div>
-        <div>
-        <a href="{{ path('category_show', {link: categoryOne.link, limit: 0}) }}">
-            Voir complete liste des programmes pour cette catégorie
-        </a>
+        <div>        
     </div>
     {% else %}
         Aucune série trouvée.
     {% endfor %}
+    {% if programs|length == 3 %}
+    <div>
+        <a href="{{ path('category_show', {slug: categoryOne.slug, limit: 0}) }}">
+            Voir complete liste des programmes pour cette catégorie
+        </a>
+    <div>
+    {% endif %}
     <div>
         <a href="{{ path('category_index') }}">
             Retour à la liste des catégories

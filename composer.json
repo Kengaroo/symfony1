@@ -17,6 +17,7 @@
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "6.1.*",
         "symfony/console": "6.1.*",
+        "symfony/doctrine-bridge": "6.1.*",
         "symfony/doctrine-messenger": "6.1.*",
         "symfony/dotenv": "6.1.*",
         "symfony/expression-language": "6.1.*",
@@ -44,7 +45,8 @@
         "symfony/webpack-encore-bundle": "^1.16",
         "symfony/yaml": "6.1.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "vich/uploader-bundle": "^2.0"
     },
     "config": {
         "allow-plugins": {

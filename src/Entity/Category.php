@@ -6,7 +6,10 @@ use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+#[Assert\EnableAutoMapping]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
@@ -15,15 +18,19 @@ class Category
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank(message: 'Ne me laisse pas tout vide')]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'La catégorie saisie {{ value }} est trop longue, elle ne devrait pas dépasser {{ limit }} caractères',
+        )]
     private ?string $name = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $link = null;
-
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Program::class)]    
     private $programs;
+
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
 
     public function __construct()
     {
@@ -72,15 +79,16 @@ class Category
         return $this;
     }
 
-    public function getLink(): ?string
+    public function getSlug(): ?string
     {
-        return $this->link;
+        return $this->slug;
     }
 
-    public function setLink(string $link): self
+    public function setSlug(string $slug): self
     {
-        $this->link = $link;
+        $this->slug = $slug;
 
         return $this;
     }
+
 }

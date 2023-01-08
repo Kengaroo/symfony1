@@ -1,37 +1,80 @@
 <?php
 
-// src/Controller/ProgramController.php
-
 namespace App\Controller;
-use Symfony\Component\Routing\Annotation\Route;
+
+use App\Entity\Season;
+use App\Form\SeasonType;
+use App\Repository\SeasonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Repository\ProgramRepository;
-use App\Repository\CategoryRepository;
+use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/season', name: 'season_')]
+#[Route('/season')]
 class SeasonController extends AbstractController
 {
-
-    #[Route('/', name: 'index')]
-    public function index(SeasonRepository $seasonRepository, CategoryRepository $categoryRepository): Response
+    #[Route('/', name: 'app_season_index', methods: ['GET'])]
+    public function index(SeasonRepository $seasonRepository): Response
     {
-        $categories = $categoryRepository->findAll();
-        $seasons = $seasonRepository->findAll();
-        return $this->render('program/index.html.twig', [
-            'website' => 'Wild Series',
-            'seasons' => $seasons,
-            'categories' => $categories
+        return $this->render('season/index.html.twig', [
+            'seasons' => $seasonRepository->findAll(),            
         ]);
     }
 
-    #[Route('/{all<.+>}', name: '404')]
-    public function new(CategoryRepository $categoryRepository): Response
+    #[Route('/new', name: 'app_season_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, SeasonRepository $seasonRepository): Response
     {
-        $categories = $categoryRepository->findAll();
-        return $this->render('404.html.twig', [
-            'categories' => $categories
+        $season = new Season();
+        $form = $this->createForm(SeasonType::class, $season);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $this->slugger->slug('season_' . $season->getNumber());
+            $season->setSlug($slug);
+            $seasonRepository->save($season, true);
+            $this->addFlash('success', 'New season successfully added');
+            return $this->redirectToRoute('app_season_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('season/new.html.twig', [
+            'season' => $season,
+            'form' => $form
         ]);
+    }
+
+    #[Route('/{season<^season-[0-9]+$}', name: 'app_season_show', methods: ['GET'])]
+    public function show(Season $season): Response
+    {
+        return $this->render('season/show.html.twig', [
+            'season' => $season
+        ]);
+    }
+
+    #[Route('/{slug}/edit', name: 'app_season_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Season $season, SeasonRepository $seasonRepository): Response
+    {
+        $form = $this->createForm(SeasonType::class, $season);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $seasonRepository->save($season, true);
+            $this->addFlash('success', 'Season successfully edited');
+            return $this->redirectToRoute('app_season_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('season/edit.html.twig', [
+            'season' => $season,
+            'form' => $form            
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_season_delete', methods: ['POST'])]
+    public function delete(Request $request, Season $season, SeasonRepository $seasonRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$season->getId(), $request->request->get('_token'))) {
+            $seasonRepository->remove($season, true);
+        }
+        $this->addFlash('danger', 'Saison was deleted');
+        return $this->redirectToRoute('app_season_index', [], Response::HTTP_SEE_OTHER);
     }
 }
