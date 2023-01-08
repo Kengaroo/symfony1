@@ -1,17 +1,18 @@
 {% extends 'base.html.twig' %}
 {% block title %}Wild Series{% endblock %}
 {% block body %}
-    <div class="media">        
+    <div class="media">
         <div class="media-body">
             <h1 class="mt-0"><a href="{{ path('program_show', {slug: program.slug}) }}">{{program.title}}.</a> Saison {{season.number }}</h1>
             <p>{{ season.description }}</p>
-            <p>Catégorie : {{ program.category.name }}</p>            
+            <p>Catégorie : {{ program.category.name }}</p>
         </div>
         <div>
-            {% if season.episodes is not empty %}            
+            {% if season.episodes is not empty %}
                 <h3>Liste des épisodes</h3>
                 {% for episode in season.episodes %}
-                    <p><a href="{{ path('program_episode_show', {slug: program.slug, season: season.slug, episode: episode.slug}) }}">{{episode.number}}. {{episode.title}}</a></p>
+                    {# <p><a href="{{ path('program_episode_show', {slug: program.slug, season: season.slug, episode: episode.slug}) }}">{{episode.number}}. {{episode.title}}</a></p> #}
+                    <p><a href="{{ path('app_episode_show', {id: episode.id}) }}">{{episode.number}}. {{episode.title}}</a></p>
                 {% endfor %}
             {% else %}
                 <p>Pas d'episodes disponible</p>

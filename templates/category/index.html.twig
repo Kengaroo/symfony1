@@ -9,6 +9,9 @@
     {% else %}
         Aucune catégorie trouvée.
     {% endfor %}
+    <a href="{{ path('category_new') }}">
+        Creer une serie
+    </a><br />
     <a href="{{ path('app_index') }}">
         Retour à l'accueil
     </a>

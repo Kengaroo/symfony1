@@ -25,10 +25,20 @@
             </tr>
         </tbody>
     </table>
-
     <a href="{{ path('app_episode_index') }}">back to list</a>
-
     <a href="{{ path('app_episode_edit', {'id': episode.id}) }}">edit</a>
-
+    <h3>User's comments</h3>
+    {% for comment in episode.comments|reverse %}
+        <div><b>{{ comment.author.email }}:</b> {{ comment.comment }}</div>
+        {% if (app.user and is_granted('ROLE_CONTRIBUTOR')) %} 
+            {{ include('episode/_delete_comment_form.html.twig') }}
+        {% endif %}
+    {% else %}
+        <p>No comments yet</p>
+    {% endfor %}
+    {% if app.user and is_granted('ROLE_CONTRIBUTOR') %} {# in_array(app.user.roles) #}
+        <a href="{{ path('episode_comment_new', {'id': episode.id}) }}">Add comment</a>
+    {% endif %}
+    <br/>
     {{ include('episode/_delete_form.html.twig') }}
 {% endblock %}

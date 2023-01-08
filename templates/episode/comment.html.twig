@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New comment{% endblock %}
+
+{% block body %}
+    <h1>Comment to Episode</h1>
+
+    {{ form_start(form, {'attr': {'class': 'form-center'}}) }}
+    {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_episode_show', {id: episode.id}) }}">back to episode</a>
+{% endblock %}

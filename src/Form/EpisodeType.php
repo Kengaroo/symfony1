@@ -15,8 +15,9 @@ class EpisodeType extends AbstractType
         $builder
             ->add('title')
             ->add('number')
+            ->add('duration')
             ->add('synopsis', TextareaType::class)
-            ->add('season', null, ['choice_label' => 'number'])
+            ->add('season', null, ['choice_label' => 'number'])//. $episode->getSeason()->getProgream()
         ;
     }
 

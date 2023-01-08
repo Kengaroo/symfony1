@@ -50,7 +50,7 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
             $season->setSlug($this->slugger->slug('season_' . $season->getNumber()));
             $season->setProgram($this->getReference('program_' . $this->slugger->slug($info['program'])));
             $this->addReference('season_' . $season->getNumber(). '_' . $this->slugger->slug($info['program']), $season);
-            $manager->persist($season);            
+            $manager->persist($season);
         }
         $manager->flush();
     }

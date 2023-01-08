@@ -34,14 +34,18 @@
             <a class="dropdown-item" href="#">Something else here</a>
             </div>
         </li>
-        <li class="nav-item active">
+        <!--<li class="nav-item active">
             <a class="nav-link" href="#">Mes favoris<span class="sr-only"></span></a>
+        </li> -->
+        <li class="nav-item">
+            {% if app.user %}
+                {{ app.user.email }}
         </li>
         <li class="nav-item">
-            <a class="nav-link d-none d-xl-block" href="#"><div class="button">Deconnexion</div></a>
-        </li>
-        <li class="nav-item">
-            <i>Dhon Joe</i>
+                <a class="nav-link d-none d-xl-block" href="{{ path('app_logout') }}"><div class="button">Se déconnecter</div></a>
+            {% else %}
+                <a class="nav-link d-none d-xl-block" href="{{ path('app_login') }}"><div class="button">Se connecter</div></a>
+            {% endif %}
         </li>
     </div>
 </nav>

@@ -6,8 +6,16 @@ use App\Repository\ActorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use DateTime;
+use DateTimeInterface;
+
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
+#[Vich\Uploadable]
+#[Assert\EnableAutoMapping]
 class Actor
 {
     #[ORM\Id]
@@ -24,9 +32,23 @@ class Actor
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photo = null;
+
+     #[Vich\UploadableField(mapping: 'actor_photo', fileNameProperty: 'photo')]
+     #[Assert\File(
+        maxSize: '1M',
+        mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+    )]
+     private ?File $photoFile = null;
+
+     #[ORM\Column(type: 'datetime')]
+    private ?DateTimeInterface $updatedAt = null;
+
     public function __construct()
     {
         $this->programs = new ArrayCollection();
+        
     }
 
     public function getId(): ?int
@@ -80,5 +102,41 @@ class Actor
         $this->slug = $slug;
 
         return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+        return $this;
+    }
+
+    public function setPhotoFile(File $image = null): Actor
+    {
+        $this->photoFile = $image;
+        if ($image) {
+            $this->updatedAt = new \DateTime('now');
+        }
+        return $this;
+    }
+
+
+    public function getPhotoFile(): ?File
+    {
+        return $this->photoFile;
+    }
+
+    public function setUpdatedAt(DateTime $updatedAt = null): Actor
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+    public function getUpdatedAt(): DateTimeInterface|null
+    {
+        return $this->updatedAt;
     }
 }

@@ -3,11 +3,12 @@
 namespace App\Service;
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Security;
 
 class GlobalService
 {
     protected $requestStack;
-
+    private $security;
     static public function name2link($name)
     {
         $link = mb_strtolower($name, 'utf-8');
@@ -25,14 +26,20 @@ class GlobalService
         return $link;
     }
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, Security $security)
     {
         $this->requestStack = $requestStack;
+        $this->security = $security;
     }
 
     public function getRequest()
     {
         $request = $this->requestStack->getCurrentRequest();
         dump($request); die;
+    }
+
+    public function getUser()
+    {
+        return $this->security->getUser();
     }
 }

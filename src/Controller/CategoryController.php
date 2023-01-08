@@ -3,13 +3,14 @@
 namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\ProgramRepository;
 use App\Repository\CategoryRepository;
 use App\Form\CategoryType;
 use App\Entity\Category;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[Route('/category', name: 'category_')]
 class CategoryController extends AbstractController
@@ -38,7 +39,7 @@ class CategoryController extends AbstractController
             'programs' => $programs
          ]);
     }
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'new')]
     public function new(Request $request, CategoryRepository $categoryRepository, SluggerInterface $slugger): Response
     {
@@ -54,17 +55,6 @@ class CategoryController extends AbstractController
             'form' => $form            
         ]);
     }
-/*
-    #[Route('/{page}', requirements: ['page'=>'\d+'], name: 'page', methods: ['GET'])]
-    public function showPage(int $page)
-    {
-        
-        return $this->render('program/showPage.html.twig', [
-            'page' => $page,
-    
-         ]);
-    }
-*/    
 
     #[Route('/{all<.+>}', name: '404')]
     public function notFound(): Response

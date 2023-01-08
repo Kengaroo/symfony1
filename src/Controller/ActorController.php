@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[Route('/actor')]
 class ActorController extends AbstractController
@@ -25,7 +26,7 @@ class ActorController extends AbstractController
         $actor = new Actor();
         $form = $this->createForm(ActorType::class, $actor);
         $form->handleRequest($request);
-
+        $actor->setUpdatedAt(new DateTime('now'));
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $slugger->slug($actor->getName());
             $actor->setSlug($slug);
@@ -53,10 +54,9 @@ class ActorController extends AbstractController
         $form = $this->createForm(ActorType::class, $actor);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            
-            $actorRepository->save($actor, true);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $actorRepository->save($actor, true);
             return $this->redirectToRoute('app_actor_index', [], Response::HTTP_SEE_OTHER);
         }
 

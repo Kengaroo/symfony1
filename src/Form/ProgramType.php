@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class ProgramType extends AbstractType
 {
@@ -20,6 +21,7 @@ class ProgramType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('synopsis', TextareaType::class)
+            /*
             ->add('poster', FileType::class, [
                 'label' => 'Poster (.jpg, .png, .bmp)',
                 // неотображенное означает, что это поле не ассоциировано ни с одним свойством сущности
@@ -33,7 +35,7 @@ class ProgramType extends AbstractType
                     new File([
                         'maxSize' => '1024k',
                         'mimeTypes' => [
-                            'image/jpg',                            
+                            'image/jpg',
                             'image/jpeg', 
                             'image/png', 
                             'image/bmp', 
@@ -41,7 +43,12 @@ class ProgramType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid image',
                     ])
                 ],
-            ])            
+            ]) */
+            ->add('posterFile', VichFileType::class, [
+                'required'     => false,
+                'allow_delete' => true, // not mandatory, default is true
+                'download_uri' => true, // not mandatory, default is true
+    ])
             ->add('category', null, ['choice_label' => 'name'])
         ;
 

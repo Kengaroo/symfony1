@@ -8,6 +8,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use DateTime;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -21,7 +22,8 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
                 'George Clooney',
                 'Jenny Lopes',
                 'Meril Strip'
-            ]
+            ],
+            'poster' => 'photo-5296311609821611965-y-63b2eb4bb5ff3230945045.jpg',
         ],
         [
             'title' => 'Silence of lambs',
@@ -46,7 +48,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         [
             'title' => 'The End of The F**cking World',
             'synopsis' => 'The End of the F***ing World is a British black comedy-drama television programme. The eight-part first series premiered its first episode on Channel 4 in the United Kingdom on 24 October 2017, after which the following episodes were released on All 4.',
-            'poster' => '220px-The_End_of_the_F ing_World_logo-637a5dd1bf4d6.png',
+            'poster' => 'rond-63b2fac888b56405412817.png',
             'category' => 'Action',
             'actors' => [
                 'Chris Nolan',
@@ -77,7 +79,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         [
             'title' => 'Easy virtue',
             'synopsis' => 'Old England, aristocracy, unconditional love',
-            'poster' => '2021-12-18-Vika-Lviv-637a538fd7c06.jpg',
+            'poster' => 'rondcolor-63b2e9ad5d203336850287.png',
             'category' => 'Mélodrame',
             'actors' => [
                 'Marla Singer',
@@ -85,7 +87,20 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
                 'Juilliet Binoch',
                 'Vanessa Paradis'
             ]
-        ]
+        ],
+        [
+            'title' => 'The sex and the city',
+            'synopsis' => 'Sex and the City, le film, ou Sexe à New York au Québec, (Sex and the City), est un film américain réalisé par Michael Patrick King, sorti le 30 mai 2008 en Amérique du Nord, le 28 mai 2008 en France et le 4 juin 2008 en Belgique.
+            Il s’agit de l’adaptation sur grand écran de la série télévisée Sex and the City.',
+            'poster' => '18938386-jpg-c-310-420-x-f-jpg-q-x-xxyxx-63b2e0f006eaf714444360.jpg',
+            'category' => 'Mélodrame',
+            'actors' => [
+                'Marla Singer',
+                'Jenny Lopes',
+                'Juilliet Binoch',
+                'Vanessa Paradis'
+            ]
+        ],
     ];
 
     public function __construct(SluggerInterface $slugger)
@@ -106,17 +121,19 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             if (isset($info['poster'])) {
                 $program->setPoster($info['poster']);
             }
+            $program->setOwner($this->getReference('user_' . $program->getSlug()));
             foreach ($info['actors'] as $actorName) {
                 $actor = new Actor();
                 $actor->setName($actorName);
                 $slug = $this->slugger->slug($actorName);
                 $actor->setSlug($slug);
+                $actor->setUpdatedAt(new DateTime("now"));
                 $program->addActor($actor);
                 $this->addReference('program_' . $program->getSlug(). '_' . $actor->getSlug(), $program);
             }
-            $manager->persist($program);
-
             $this->addReference('program_' . $program->getSlug(), $program);
+            $program->setUpdatedAt(new DateTime("2022-11-23 00:00:00")); //var_dump($program->getUpdatedAt());
+            $manager->persist($program);
         }
         $manager->flush();
     }
